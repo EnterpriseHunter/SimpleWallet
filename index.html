@@ -58,6 +58,11 @@
             transactionlogs.innerHTML = transactionlogs.innerHTML +
               "Sent to:" + AddressTo + " See transaction details by hash: " +
               "<a href='" + checkTX + "' target='_blank'>" + checkTX + "</a><br />";
+            /*Clear input data to avoid incorrect sending*/
+            document.FormToSend.FromAddress.value = "";
+            document.FormToSend.ToAddress.value = "";
+            document.FormToSend.PrivateKeyValue.value = "";
+            document.FormToSend.ETHToSend.value = "";
           }
           else {
             console.log("Not sent to:" + AddressTo + "Error in sending: " + err);
@@ -76,26 +81,26 @@
     <h5>Made by <a href="http://ethercall.io">ethercall.io</a> Sponsored by <a href="http://groupco.in">groupco.in</a></h5>
     <form name="FormToSend">
       <div class="inputdiv">
-        Node Address<INPUT NAME="NodeAddress" SIZE=40 placeholder="https://ropsten.infura.io/XXxxXxxXXxXXXXXxxXxX">
+        Node Address<INPUT NAME="NodeAddress" SIZE=60 placeholder="https://ropsten.infura.io/XXxxXxxXXxXXXXXxxXxX">
       </div>
       <div class="inputdiv">
-        From address<INPUT NAME="FromAddress" SIZE=40 placeholder="0x...">
+        From address<INPUT NAME="FromAddress" SIZE=60 placeholder="0x..." autocomplete="off">
       </div>
       <div class="inputdiv">
-        Private key<INPUT NAME="PrivateKeyValue" SIZE=80 placeholder="0x...">
+        Private key<INPUT NAME="PrivateKeyValue" SIZE=80 placeholder="0x..." autocomplete="off">
       </div>
       <div class="inputdiv">
-        To address<INPUT NAME="ToAddress" SIZE=40 placeholder="0x...">
+        To address<INPUT NAME="ToAddress" SIZE=60 placeholder="0x..." autocomplete="off">
       </div>
       <div class="inputdiv">
         Gas price in WEI<INPUT NAME="GasPrice" value="500000000" SIZE=40>
         <i>100000000WEI=100MWEI=0.1GWEI</i>
       </div>
       <div class="inputdiv">
-        Gas limit<INPUT NAME="GasLimit" value="30000" SIZE=40>
+        Gas limit<INPUT NAME="GasLimit" value="30000" SIZE=40 autocomplete="off">
       </div>
       <div class="inputdiv">
-        Ether<INPUT NAME="ETHToSend" SIZE=40 placeholder="0.001">
+        Ether<INPUT NAME="ETHToSend" SIZE=40 placeholder="0.001" autocomplete="off">
       </div>
       <div class="inputdiv">
         <button type="button" onClick="sendether();">Send Ether</button>
