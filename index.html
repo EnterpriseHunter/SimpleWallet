@@ -30,7 +30,6 @@
               console.log('This is an unknown network.')
           }
         })
-
         var owner = document.FormToSend.FromAddress.value;
         var AddressTo = document.FormToSend.ToAddress.value;
         var TXcount = web3.eth.getTransactionCount(owner);
@@ -68,41 +67,41 @@
       }
     </script>
     <style>
-      .inputdiv {padding-left: 10px; padding-right: 10px; padding-bottom: 10px; width: 400px;}
-      .inputdiv2 {padding-left: 10px; padding-right: 10px; padding-bottom: 10px; width: 200px;}
-      .inputdiv3 {padding-left: 10px; padding-right: 10px; padding-bottom: 10px;}
+      .inputdiv {padding-left: 10px; padding-right: 10px; padding-bottom: 10px; width: 300px;}
+      .inputdiv2 {padding-left: 10px; padding-right: 10px; padding-bottom: 10px;}
     </style>
   </head>
   <body>
     <h1>Simple Wallet - clear code to review and send ether</h1>
+    <h5>Made by <a href="http://ethercall.io">ethercall.io</a> Sponsored by <a href="http://groupco.in">groupco.in</a></h5>
     <form name="FormToSend">
       <div class="inputdiv">
-        Node Address<INPUT NAME="NodeAddress" SIZE=40>
+        Node Address<INPUT NAME="NodeAddress" SIZE=40 placeholder="https://ropsten.infura.io/XXxxXxxXXxXXXXXxxXxX">
       </div>
       <div class="inputdiv">
-        From address<INPUT NAME="FromAddress" SIZE=40>
+        From address<INPUT NAME="FromAddress" SIZE=40 placeholder="0x...">
       </div>
       <div class="inputdiv">
-        To address<INPUT NAME="ToAddress" SIZE=40>
+        Private key<INPUT NAME="PrivateKeyValue" SIZE=80 placeholder="0x...">
       </div>
       <div class="inputdiv">
-        Private key<INPUT NAME="PrivateKeyValue" SIZE=80>
+        To address<INPUT NAME="ToAddress" SIZE=40 placeholder="0x...">
       </div>
-      <div class="inputdiv2">
+      <div class="inputdiv">
         Gas price in WEI<INPUT NAME="GasPrice" value="500000000" SIZE=40>
-        100000000WEI=100MWEI=0.1GWEI
+        <i>100000000WEI=100MWEI=0.1GWEI</i>
       </div>
-      <div class="inputdiv2">
+      <div class="inputdiv">
         Gas limit<INPUT NAME="GasLimit" value="30000" SIZE=40>
       </div>
-      <div class="inputdiv2">
-        Ether<INPUT NAME="ETHToSend" value="0.1" SIZE=40>
+      <div class="inputdiv">
+        Ether<INPUT NAME="ETHToSend" SIZE=40 placeholder="0.001">
       </div>
       <div class="inputdiv">
         <button type="button" onClick="sendether();">Send Ether</button>
       </div>
     </form>
-    <div class="inputdiv3">
+    <div class="inputdiv2">
       List of transactions
       <div id="transactioninfo"></div>
     </div>
