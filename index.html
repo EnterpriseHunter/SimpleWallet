@@ -1,0 +1,110 @@
+<!doctype>
+<html>
+  <head>
+    <script src="https://cdn.rawgit.com/ethereumjs/browser-builds/2fb69a714afe092b06645286f14b94f41e5c062c/dist/ethereumjs-tx.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+
+    <script type="text/javascript">
+      var Web3 = require('web3');
+      var web3 = new Web3();
+      function sendether(){
+        var provider = document.FormToSend.NodeAddress.value;
+        web3.setProvider(new web3.providers.HttpProvider(provider));
+        var NetworkName = "";
+        web3.version.getNetwork((err, netId) => {
+          switch (netId) {
+            case "1":
+              NetworkName = "";
+              break
+            case "2":
+              NetworkName = "";
+              break
+            case "3":
+              NetworkName = "ropsten.";
+              break
+            case "4":
+              NetworkName = "rinkeby.";
+              break
+            default:
+              NetworkName = "";
+              console.log('This is an unknown network.')
+          }
+        })
+
+        var owner = document.FormToSend.FromAddress.value;
+        var AddressTo = document.FormToSend.ToAddress.value;
+        var TXcount = web3.eth.getTransactionCount(owner);
+        var ether = document.FormToSend.ETHToSend.value * 10**18;
+        var gasPrice = document.FormToSend.GasPrice.value;
+        var gasLimit = document.FormToSend.GasLimit.value;
+        var privKey = EthJS.Buffer.Buffer.from(document.FormToSend.PrivateKeyValue.value, 'hex');
+        var tx = new EthJS.Tx({
+          "from": owner,
+          "nonce": web3.toHex(TXcount),
+          "gasPrice": web3.toHex(gasPrice),
+          "gasLimit":  web3.toHex(gasLimit),
+          "to": AddressTo,
+          "value": web3.toHex(ether),
+          "data": "0x"
+        });
+
+    		tx.sign(privKey);
+    		var serializedTx = tx.serialize();
+
+    		web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'), function(err, hash) {
+          var transactionlogs = document.getElementById("transactioninfo");
+          if (!err) {
+            var checkTX = "https://" + NetworkName +"etherscan.io/tx/" + hash;
+            console.log("Sent to:" + AddressTo + "Transaction hash: " + hash);
+            transactionlogs.innerHTML = transactionlogs.innerHTML +
+              "Sent to:" + AddressTo + " See transaction details by hash: " +
+              "<a href='" + checkTX + "' target='_blank'>" + checkTX + "</a><br />";
+          }
+          else {
+            console.log("Not sent to:" + AddressTo + "Error in sending: " + err);
+            document.getElementById("transactioninfo").innerHTML =
+              "Not sent to:" + AddressTo + "Error in sending: " + err + "<br />";
+        }});
+      }
+    </script>
+    <style>
+      .inputdiv {padding-left: 10px; padding-right: 10px; padding-bottom: 10px; width: 400px;}
+      .inputdiv2 {padding-left: 10px; padding-right: 10px; padding-bottom: 10px; width: 200px;}
+      .inputdiv3 {padding-left: 10px; padding-right: 10px; padding-bottom: 10px;}
+    </style>
+  </head>
+  <body>
+    <h1>Simple Wallet - clear code to review and send ether</h1>
+    <form name="FormToSend">
+      <div class="inputdiv">
+        Node Address<INPUT NAME="NodeAddress" SIZE=40>
+      </div>
+      <div class="inputdiv">
+        From address<INPUT NAME="FromAddress" SIZE=40>
+      </div>
+      <div class="inputdiv">
+        To address<INPUT NAME="ToAddress" SIZE=40>
+      </div>
+      <div class="inputdiv">
+        Private key<INPUT NAME="PrivateKeyValue" SIZE=80>
+      </div>
+      <div class="inputdiv2">
+        Gas price in WEI<INPUT NAME="GasPrice" value="500000000" SIZE=40>
+        100000000WEI=100MWEI=0.1GWEI
+      </div>
+      <div class="inputdiv2">
+        Gas limit<INPUT NAME="GasLimit" value="30000" SIZE=40>
+      </div>
+      <div class="inputdiv2">
+        Ether<INPUT NAME="ETHToSend" value="0.1" SIZE=40>
+      </div>
+      <div class="inputdiv">
+        <button type="button" onClick="sendether();">Send Ether</button>
+      </div>
+    </form>
+    <div class="inputdiv3">
+      List of transactions
+      <div id="transactioninfo"></div>
+    </div>
+  </body>
+</html>
